@@ -12,10 +12,13 @@ class StockOpenReturn(Factor):
         rq.init()
     
     def factor_name(self) -> str:
-        return "StockClose"
+        return "StockOpenReturn"
     
     def author(self) -> str:
         return "xitong"
+    
+    def desc(self) -> str:
+        return "stock return using open price"
 
     @Factor.checker
     def frequency(self) -> Frequency:

@@ -16,6 +16,9 @@ class StockClose(Factor):
     
     def author(self) -> str:
         return "xitong"
+    
+    def desc(self)->str:
+        return "stock close price (no adjust)"
 
     @Factor.checker
     def frequency(self) -> Frequency:
