@@ -8,18 +8,18 @@ import rqdatac as rq
 from factorbase.factor import Factor, SecurityType, Frequency
 
 
-class Stock300(Factor):
+class Stock500(Factor):
     def __init__(self):
         rq.init()
 
     def factor_name(self) -> str:
-        return "Stock300"
+        return "Stock500"
 
     def author(self) -> str:
         return "xitong"
 
     def desc(self) -> str:
-        return "000300.XSHG components"
+        return "000905.XSHG components"
 
     @Factor.checker
     def frequency(self) -> Frequency:
@@ -36,7 +36,7 @@ class Stock300(Factor):
     @Factor.checker
     def run(self, start_time: datetime, end_time: datetime) -> Tuple[pd.DataFrame, Exception]:
         cs = rq.index_components(
-            '000300.XSHG', start_date=start_time, end_date=end_time)
+            '000905.XSHG', start_date=start_time, end_date=end_time)
 
         index = pd.Series(data=cs.keys(), name='datetime')
         codes = sorted(list(reduce(lambda a, b: set(a) | set(b), cs.values())))
@@ -52,12 +52,12 @@ class Stock300(Factor):
 
 if __name__ == '__main__':
     now = datetime.now()
-    s300 = Stock300()
+    s500 = Stock500()
     try:
-        df, err = s300.run(datetime(2010, 1, 1), now)
+        df, err = s500.run(datetime(2010, 1, 1), now)
     except Exception as e:
         print("error: ", e)
         exit(-1)
 
     print(df, err)
-    df.to_pickle("Stock300.pkl")
+    df.to_pickle("Stock500.pkl")
