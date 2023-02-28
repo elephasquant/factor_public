@@ -3,14 +3,11 @@ from typing import List, Tuple
 import pandas as pd
 import os
 
-import rqdatac as rq
-
 from factorbase.factor import Factor, SecurityType, Frequency
-
 
 class StockBarraSize(Factor):
     def __init__(self):
-        rq.init()
+        pass
     
     def factor_name(self) -> str:
         return "StockBarraSize"
@@ -44,7 +41,7 @@ class StockBarraSize(Factor):
                 continue
             file_path = os.path.join(src, file)
             df = pd.read_csv(file_path)
-            df['stock_code'] = df['stock_code'].map(lambda x: x[2:] + '.' + x[:2])
+            df['stock_code'] = df['stock_code'].map(lambda x: x[2:] + '.' + ('XSHG' if x[:2]== 'SH' else 'XSHE'))
             df = df.set_index(['stock_code'])
             
             row = df[factor_name].copy()
