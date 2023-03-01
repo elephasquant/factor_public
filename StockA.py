@@ -1,30 +1,32 @@
 from datetime import datetime, timedelta
 from typing import List, Tuple
 import pandas as pd
+from functools import reduce
 
 import rqdatac as rq
 
 from factorbase.factor import Factor, SecurityType, Frequency, FactorType
 
 
-class StockOpen(Factor):
+class StockA(Factor):
     def __init__(self):
         rq.init()
-    
+
     def factor_name(self) -> str:
-        return "StockOpen"
-    
-    def author(self) -> str:
-        return "xitong"
+        return "StockA"
     
     def factor_type(self) -> FactorType:
-        return FactorType.NORMAL
+        return FactorType.POOL
     
     def first_start_time(self) -> datetime:
         return datetime(2010,1,1)
-    
-    def desc(self)->str:
-        return "stock open price (no adjust)"
+
+    def author(self) -> str:
+        return "xitong"
+
+    def desc(self) -> str:
+        return "all China market A stocks"
+
 
     @Factor.checker
     def frequency(self) -> Frequency:
@@ -36,7 +38,7 @@ class StockOpen(Factor):
 
     @Factor.checker
     def trigger_time(self) -> str:
-        return "0 30 9 * * * *"
+        return "0 1 0 * * * *"
 
     @Factor.checker
     def run(self, start_time: datetime, end_time: datetime) -> Tuple[pd.DataFrame, Exception]:
@@ -56,21 +58,23 @@ class StockOpen(Factor):
                 df[code] = df_px.loc[code]
             except:
                 pass
-        df['gen_time'] = df.index.map(lambda x: x + timedelta(hours=9,minutes=30))
+        
+        df['gen_time'] = df.index.map(lambda x: x + timedelta(hours=15))
+        df = df.fillna(0)
+        df = df.where(df==0, 1)
             
         return df, None
-
+        
 
 
 if __name__ == '__main__':
     now = datetime.now()
-    close = StockOpen()
+    factor = StockA()
     try:
-        df, err = close.run(datetime(2010,1,1), now)
+        df, err = factor.run(datetime(2010, 1, 1), now)
     except Exception as e:
         print("error: ", e)
         exit(-1)
-    
+
     print(df, err)
-    df.to_pickle("StockOpen.pkl")
-    
+    df.to_pickle("StockA.pkl")

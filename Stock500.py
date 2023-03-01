@@ -5,7 +5,7 @@ from functools import reduce
 
 import rqdatac as rq
 
-from factorbase.factor import Factor, SecurityType, Frequency
+from factorbase.factor import Factor, SecurityType, Frequency, FactorType
 
 
 class Stock500(Factor):
@@ -14,7 +14,13 @@ class Stock500(Factor):
 
     def factor_name(self) -> str:
         return "Stock500"
-
+    
+    def factor_type(self) -> FactorType:
+        return FactorType.POOL
+    
+    def first_start_time(self) -> datetime:
+        return datetime(2010,1,1)
+    
     def author(self) -> str:
         return "xitong"
 

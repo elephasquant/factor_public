@@ -4,7 +4,7 @@ import pandas as pd
 
 import rqdatac as rq
 
-from factorbase.factor import Factor, SecurityType, Frequency
+from factorbase.factor import Factor, SecurityType, Frequency, FactorType
 
 
 class StockIndustryCitics2019First(Factor):
@@ -16,6 +16,12 @@ class StockIndustryCitics2019First(Factor):
     
     def author(self) -> str:
         return "xitong"
+    
+    def factor_type(self) -> FactorType:
+        return FactorType.INDUSTRY
+    
+    def first_start_time(self) -> datetime:
+        return datetime(2010,1,1)
     
     def desc(self)->str:
         return "stock citics first level industry"

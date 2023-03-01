@@ -4,7 +4,7 @@ import pandas as pd
 
 import rqdatac as rq
 
-from factorbase.factor import Factor, SecurityType, Frequency
+from factorbase.factor import Factor, SecurityType, Frequency, FactorType
 
 
 class StockOpenReturn(Factor):
@@ -19,6 +19,12 @@ class StockOpenReturn(Factor):
     
     def desc(self) -> str:
         return "stock return using open price"
+    
+    def factor_type(self) -> FactorType:
+        return FactorType.NORMAL
+    
+    def first_start_time(self) -> datetime:
+        return datetime(2010,1,1)
 
     @Factor.checker
     def frequency(self) -> Frequency:

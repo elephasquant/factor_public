@@ -3,7 +3,7 @@ from typing import List, Tuple
 import pandas as pd
 import os
 
-from factorbase.factor import Factor, SecurityType, Frequency
+from factorbase.factor import Factor, SecurityType, Frequency, FactorType
 
 
 class StockBarraMomentum(Factor):
@@ -15,6 +15,12 @@ class StockBarraMomentum(Factor):
     
     def author(self) -> str:
         return "xitong"
+    
+    def factor_type(self) -> FactorType:
+        return FactorType.RISK
+    
+    def first_start_time(self) -> datetime:
+        return datetime(2019,1,1)
     
     def desc(self)->str:
         return "stock barra momentum factor"
