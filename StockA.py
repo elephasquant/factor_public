@@ -58,10 +58,11 @@ class StockA(Factor):
                 df[code] = df_px.loc[code]
             except:
                 pass
-        
+            
+        df = df.where(df==0, 1)
         df['gen_time'] = df.index.map(lambda x: x + timedelta(hours=15))
         df = df.fillna(0)
-        df = df.where(df==0, 1)
+        
             
         return df, None
         

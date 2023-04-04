@@ -45,12 +45,12 @@ class StockST(Factor):
         
         df = rq.is_st_stock(codes, start_date=start_time, end_date=end_time)
         codes = sorted(list(df.columns))
+        df = df.astype(int)
         
         df['gen_time'] = df.index.map(lambda x: x + timedelta(hours=0))
         
         df = df[['gen_time'] + codes]
         df.index.name = 'datetime'
-        df = df.astype(int)
             
         return df, None
 
